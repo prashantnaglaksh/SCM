@@ -1,12 +1,17 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::Layout(~{::section})">
 <head>
 <meta charset="UTF-8" />
 <title>This is home page</title>
 </head>
 <body>
-	<section>
-		<h1>This is home body</h1>
+	<section class="banner d-flex justify-content-center align-items-center ">
+		<div class="text-center">
+			<h1>Smart Contact Manger</h1>
+			<p>Hi This Is Going To Be Used To Manage Your Contacts</p>
+			<button class="btn bg-primary bg-lg text-white">Let's Get Started</button>
+		</div>
 	</section>
 </body>
 </html>
