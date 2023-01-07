@@ -1,0 +1,1 @@
+console.log("i am script.js and i am working fine");

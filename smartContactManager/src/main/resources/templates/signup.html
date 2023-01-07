@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::Layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is signup page</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<div class="signup-card mt-3">
+						<div class="container text-center">
+							<img class="" style="width: 80px;" src=""
+								th:src="@{../img/registration.png}" />
+						</div>
+						<form th:action="@{/do_register}" method="post">
+							<div class="form-group">
+								<label for="name_field">Your Name</label> <input type="text"
+									class="form-control" id="name_field"
+									placeholder="Please Enter Your Name Here">
+							</div>
+							<div class="form-group">
+								<label for="email_field">Your Email address</label> <input
+									type="email" class="form-control" id="email_field"
+									placeholder="name@example.com">
+							</div>
+							<div class="form-group">
+								<label for="password_field">Your Password</label> <input
+									type="password" class="form-control" id="password_field"
+									placeholder="Please Enter Your Password">
+							</div>
+							<div class="form-group">
+								<label for="textArea_field">Your Contact Details</label>
+								<textarea class="form-control" id="textArea_field" rows="3"></textarea>
+							</div>
+							<div class="container text-center">
+								<button type="submit" class="btn bg-primary btn-blc text-white ">
+									Submit</button>
+								<button type="reset" class="btn btn-warning ">Reset</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
