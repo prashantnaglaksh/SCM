@@ -22,8 +22,10 @@
 						<form th:action="@{/do_register}" method="post" th:object="${user}">
 							<div class="form-group">
 								<label for="name_field">Your Name</label> <input name="name" type="text"
-									class="form-control" id="name_field"
+									class="form-control " th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" id="name_field"
 									placeholder="Please Enter Your Name Here" th:value="${user.name}">
+								<div class="invalid-feedback"
+									th:each="e : ${#fields.errors('name')}" th:text="${e}"></div>
 							</div>
 							<div class="form-group">
 								<label for="email_field">Your Email address</label> <input
@@ -37,7 +39,7 @@
 							</div>
 							<div class="form-group">
 								<label for="textArea_field">Your Contact Details</label>
-								<textarea name="about" class="form-control" id="textArea_field" rows="3" th:value="${user.about}"></textarea>
+								<textarea name="about" class="form-control" id="textArea_field" rows="3" th:text="${user.about}"></textarea>
 							</div>
 							<div class="form-group form-check |">
 								<input type="checkbox" name="agreement"

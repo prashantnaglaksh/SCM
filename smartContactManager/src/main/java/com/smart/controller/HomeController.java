@@ -1,10 +1,12 @@
 package com.smart.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +45,16 @@ public class HomeController {
 	
 	//handler for registering user
 	@PostMapping("/do_register")
-	public String registerUser (@ModelAttribute("user") User user,
+	public String registerUser (@Valid @ModelAttribute("user") User user,BindingResult res,
 			@RequestParam(value="agreement", defaultValue = "false") boolean agreement, Model model, HttpSession session){
 		try {
 			if(!agreement)
 				throw new Exception("You Have Not Agreed Terms And Condition");
+			if(res.hasErrors()) {
+				model.addAttribute("user", user);
+				return "signup";
+			}
+			
 			user.setRole("Role_User");
 			user.setEnabled(true);
 			System.out.println("user " + user);
