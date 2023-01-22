@@ -84,5 +84,12 @@ public class HomeController {
 		model.addAttribute("title", "Login Page");
 		return "login";
 	}
+	
+	@ResponseBody
+	@GetMapping("/dummy")
+	public String dummy() {
+		User user = userRepository.getUserByUserName("");
+		return user.getName();
+	}
 
 }

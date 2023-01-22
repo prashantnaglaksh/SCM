@@ -9,3 +9,22 @@ const toggleSidebar = () => {
 		$(".content").css("margin-left", "20%");
 	}
 };
+
+var input = document.getElementById("email_field");
+var timeout = null;
+
+input.addEventListener("keyup", function() {
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+	  $.ajax({
+		  type: "GET",
+		  url: "http://localhost:8080/dummy",
+		  success: function(response) {
+			  console.log(response);
+			  // do something with the response
+			  //alert(response);
+		  }
+	  });
+
+  }, 500);
+});

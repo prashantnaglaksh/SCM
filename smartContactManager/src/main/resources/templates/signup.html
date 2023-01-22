@@ -19,7 +19,7 @@
 							<img class="" style="width: 80px;" src=""
 								th:src="@{../img/registration.png}" />
 						</div>
-						<form th:action="@{/do_register}" method="post" th:object="${user}">
+						<form class="formClass" id="formClass" th:action="@{/do_register}" method="post" th:object="${user}">
 							<div class="form-group">
 								<label for="name_field">Your Name</label> <input name="name" type="text"
 									class="form-control " th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}" id="name_field"
