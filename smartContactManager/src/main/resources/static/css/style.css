@@ -41,3 +41,63 @@ border-top-right-radius: .3rem;
 border-bottom-right-radius: .3rem;
 }
 }
+
+/* side bar style */
+
+@media only screen and (max-width: 600px) {
+	.sidebar {
+		display: none;
+		width: 80% !important;
+		background: white;
+		height: 100vh;
+		position: fixed;
+		padding-top: 20px;
+	}
+	.content {
+		margin-left: 0%!important;
+	}
+}
+
+.sidebar{
+	width:18%;
+	background:white;
+	height: 100%;
+	position: fixed;
+	padding-top: 45px;
+}
+
+.sidebar a{
+	display: block;
+	width: 100%;
+	padding: 10px 20px;
+	text-decoration: none;
+	color: grey;
+}
+
+.sidebar a:hover{
+	background: #e2e2e2;
+}
+
+.sidebar .divider{
+	height: 5px;
+	width: 100%;
+	background: #e2e2e2;
+	margin-top: 10px;
+}
+.content{
+	margin-left:20%
+}
+
+.sidebar .crossBtn{
+	position: absolute;
+	top:0;
+	right:35px;
+	font-size: 36px;
+	cursor: pointer;
+}
+
+
+
+
+
+
