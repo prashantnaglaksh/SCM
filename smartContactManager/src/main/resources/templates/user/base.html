@@ -66,6 +66,14 @@
     <!-- this is content area -->
     <div class="content mt-5">
     	<i class="fas fa-bars m3" onclick="toggleSidebar()"></i>
+    	<!-- adding success and fail alert -->
+		<div th:if="${session.message}" class="container">
+			    	<div th:classappend="${'alert-' + session.message.type}" class="alert text-center" role="alert">
+  						<span  th:text="${session.message.content}"></span>
+					</div>
+					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+    	
     	<div th:replace="${content}"></div>
     </div>
     <!-- Optional JavaScript -->

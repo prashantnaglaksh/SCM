@@ -25,7 +25,7 @@
 											<i class="fa fa-plus"></i>
 										</div>
 									</div>
-									<input type="text" id="firstName" name="name" placeholder="enter your name here" class="form-control" />
+									<input required type="text" id="firstName" name="name" placeholder="enter your name here" class="form-control" />
 								</div>
 								<!-- Second name -->
 								<div class="input-group mt-3">
@@ -43,7 +43,7 @@
 											<i class="fas fa-phone"></i>
 										</div>
 									</div>
-									<input type="text" id="phone" name="phone" placeholder="enter your phone number here" class="form-control" />
+									<input required min="10" max="10" type="number" id="phone" name="phone" placeholder="enter your phone number here" class="form-control" />
 								</div>
 								<!-- Email Field -->
 								<div class="input-group mt-3">
@@ -80,6 +80,12 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+		<script>
+      tinymce.init({
+        selector: '#description'
+      });
+    </script>
 	</section>
 </body>
 </html>
