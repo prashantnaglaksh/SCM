@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smart.dao.ContactRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entity.Contact;
 import com.smart.entity.User;
@@ -31,6 +33,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ContactRepository contactRepository;
 	
 	//with the help of this annotation this attr is automativcalyy added to all the handelers
 	@ModelAttribute
@@ -94,6 +99,21 @@ public class UserController {
 		//System.out.println("Contact :: " + contact);
 		
 		return "user/add_contact_form";
+	}
+	
+	@GetMapping("/show-contacts")
+	public String showContacts(Model model, Principal principal) {
+		model.addAttribute("title", "View Contacts");
+		
+		//fetching contacts
+		String userName = principal.getName();
+		User user = this.userRepository.getUserByUserName(userName);
+		int userId = user.getId();
+		List<Contact> contacts = this.contactRepository.findContactByUser(userId);
+		model.addAttribute("contacts", contacts);
+		
+		return "user/show_contacts";
+		
 	}
 
 }
