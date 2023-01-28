@@ -130,16 +130,31 @@ public class UserController {
 	
 	//showing particular contact details
 	@GetMapping("/{cId}/contact")
-	public String showContactDetail(@PathVariable("cId") Integer cId, Model model) {
+	public String showContactDetail(@PathVariable("cId") Integer cId, Model model, Principal principal) {
 		
 		Optional<Contact> contactOptional = this.contactRepository.findById(cId);
 		Contact contact = contactOptional.get();
-		
-		model.addAttribute("contact", contact);
+		//we are adding this if condition so another user not able to see the contact of another user as we have
+		//contact id in our URL so he can change the id and can see the contact details
+		String userName = principal.getName();
+		User user = this.userRepository.getUserByUserName(userName);
+		if(user.getId() == contact.getUser().getId())
+			model.addAttribute("contact", contact);
 		
 		return "user/contact_detail";
 		
 	}
 	
+	@GetMapping("/delete/{cId}")
+	public String deleteContact(@PathVariable("cId") Integer cId, Model model, HttpSession httpSession) {
+		Optional<Contact> contactOptional =  this.contactRepository.findById(cId);
+		Contact contact = contactOptional.get();
+		contact.setUser(null); // we are setting user as null as in Entitiy class we have specify CASCADE ALL true so here contact
+							   // contact is link to the user and it wont let the contact to be deleted
+		this.contactRepository.delete(contact);
+		//httpSession.setAttribute("message", "Contact deleted Successfully");
+		httpSession.setAttribute("message", new Message("Contact Deleted Successfully....", "success"));
+		return "redirect:/user/show-contacts/0";
+	}
 
 }
