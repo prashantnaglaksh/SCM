@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -72,9 +73,10 @@ public class UserController {
 			System.out.println("i am file " + file);
 			String name = principal.getName();
 			User user = this.userRepository.getUserByUserName(name);
-			// processing and uploadin file
+			// processing and uploading file
+			// here we are saving the image to our local folder and in database we are saving the url of the image
 			if(file.isEmpty()){
-				
+				contact.setImage("defaultContactImg.png");
 			}else {
 				contact.setImage(file.getOriginalFilename());
 				File savefile = new ClassPathResource("static/img").getFile();
@@ -125,5 +127,19 @@ public class UserController {
 		return "user/show_contacts";
 		
 	}
+	
+	//showing particular contact details
+	@GetMapping("/{cId}/contact")
+	public String showContactDetail(@PathVariable("cId") Integer cId, Model model) {
+		
+		Optional<Contact> contactOptional = this.contactRepository.findById(cId);
+		Contact contact = contactOptional.get();
+		
+		model.addAttribute("contact", contact);
+		
+		return "user/contact_detail";
+		
+	}
+	
 
 }

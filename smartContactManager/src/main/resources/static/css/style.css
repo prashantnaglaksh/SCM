@@ -115,7 +115,14 @@ border-bottom-right-radius: .3rem;
 }
 
 
-
+.my_profile_picture{
+	width:30px;
+	height:30px;
+	object-fit:cover;
+	border-radius:50%;
+	/* border:1px solid black; */
+	
+}
 
 
 
