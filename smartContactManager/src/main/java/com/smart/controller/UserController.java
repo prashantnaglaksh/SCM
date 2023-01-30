@@ -146,12 +146,17 @@ public class UserController {
 	}
 	
 	@GetMapping("/delete/{cId}")
-	public String deleteContact(@PathVariable("cId") Integer cId, Model model, HttpSession httpSession) {
+	public String deleteContact(@PathVariable("cId") Integer cId, Model model, HttpSession httpSession, Principal principal) {
 		Optional<Contact> contactOptional =  this.contactRepository.findById(cId);
 		Contact contact = contactOptional.get();
-		contact.setUser(null); // we are setting user as null as in Entitiy class we have specify CASCADE ALL true so here contact
+		//contact.setUser(null); // we are setting user as null as in Entitiy class we have specify CASCADE ALL true so here contact
 							   // contact is link to the user and it wont let the contact to be deleted
-		this.contactRepository.delete(contact);
+		//this.contactRepository.delete(contact);
+		String userOptional = principal.getName();
+		User user = this.userRepository.getUserByUserName(userOptional);
+		user.getContacts().remove(contact);
+		this.userRepository.save(user);
+		
 		//httpSession.setAttribute("message", "Contact deleted Successfully");
 		httpSession.setAttribute("message", new Message("Contact Deleted Successfully....", "success"));
 		return "redirect:/user/show-contacts/0";
@@ -202,5 +207,12 @@ public class UserController {
 		}
 		return "redirect:/user/" + contact.getcId() + "/contact";
 		//return "user/update_form";
+	}
+	
+	//your profile handeler
+	@GetMapping("/profile")
+	public String yourProfile(Model model) {
+		model.addAttribute("title", "Profile Page");
+		return "user/profile";
 	}
 }
