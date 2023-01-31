@@ -17,4 +17,7 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
 	// pageable will contain two object current page & contact per page
 	@Query("from Contact as c where c.user.id=:userId")
 	public Page<Contact> findContactByUser(@Param("userId")int userId, Pageable pageable);
+	
+	// search method
+	public List<Contact> findByNameContainingAndUser(String name, User user);
 }

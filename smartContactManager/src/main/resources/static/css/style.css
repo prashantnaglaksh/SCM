@@ -124,5 +124,18 @@ border-bottom-right-radius: .3rem;
 	
 }
 
+.search-container{
+	position:relative;
+}
+
+.search-result{
+	position:absolute;
+	background:white;
+	width:100%;
+	padding:10px;
+	border:1px solid gray;
+	display:none;
+}
+
 
 

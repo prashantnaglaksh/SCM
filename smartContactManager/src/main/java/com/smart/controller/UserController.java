@@ -46,10 +46,8 @@ public class UserController {
 	@ModelAttribute
 	public void addCommanData(Model model, Principal principal) {
 		String userName = principal.getName();
-		System.out.println("i am userName " + userName);
 		// fetching user info using userName i.e, emailId
 		User user = userRepository.getUserByUserName(userName);
-		System.out.println("i am user " + user);
 		model.addAttribute("user", user);
 	}
 	
