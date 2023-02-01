@@ -213,4 +213,10 @@ public class UserController {
 		model.addAttribute("title", "Profile Page");
 		return "user/profile";
 	}
+	
+	//open setting handeler
+	@GetMapping("/setting")
+	public String openSetting() {
+		return "user/setting";
+	}
 }
