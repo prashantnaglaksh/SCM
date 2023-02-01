@@ -16,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,9 @@ public class UserController {
 	
 	@Autowired
 	private ContactRepository contactRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	//with the help of this annotation this attr is automativcalyy added to all the handelers
 	@ModelAttribute
@@ -219,4 +223,23 @@ public class UserController {
 	public String openSetting() {
 		return "user/setting";
 	}
+	//change password handeler
+	@PostMapping("/change-password")
+	public String changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword,
+			Principal principal, HttpSession httpSession) {
+		
+		String userName = principal.getName();
+		User user = this.userRepository.getUserByUserName(userName);
+		if(this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+			user.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+			this.userRepository.save(user);
+			httpSession.setAttribute("message", new Message("Your Password Is Updated...", "success"));
+		}else {
+			httpSession.setAttribute("message", new Message("Your oldPassword Password Is InCorrect...", "danger"));
+			return "redirect:/user/setting";
+		}
+		
+		return "redirect:/user/index";
+	}
+	
 }
