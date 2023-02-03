@@ -30,7 +30,7 @@ public class EmailService {
             mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             mimeMessage.setSubject(subject);
             //mimeMessage.setText(message);
-            mimeMessage.setContent(message, "text/html");
+            mimeMessage.setContent(message, "text/html"); // by using this we will be able to send proper html in our mail
 
             Transport.send(mimeMessage);
             return true;
