@@ -18,6 +18,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +35,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.smart.dao.ContactRepository;
+import com.smart.dao.MyOrderRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entity.Contact;
+import com.smart.entity.MyOrder;
 import com.smart.entity.User;
 import com.smart.helper.Message;
+
+import ch.qos.logback.core.status.Status;
 
 @Controller
 @RequestMapping("/user")
@@ -51,6 +56,9 @@ public class UserController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private MyOrderRepository myOrderRepository;
 	
 	//with the help of this annotation this attr is automativcalyy added to all the handelers
 	@ModelAttribute
@@ -251,7 +259,7 @@ public class UserController {
 	// payment handler
 	@PostMapping("/create_order")
 	@ResponseBody
-	public String createOrder(@RequestBody Map<String, Object> data) throws Exception {
+	public String createOrder(@RequestBody Map<String, Object> data,Principal principal) throws Exception {
 		try {
 			String amount = (String) data.get("amount");
 			int lAmount = Integer.valueOf(amount);
@@ -264,7 +272,17 @@ public class UserController {
 			  orderRequest.put("receipt", "order_rcptid_11");
 
 			  Order order = client.Orders.create(orderRequest);
-			  // we should save order details in our db
+			  // we should save order details in our db  (we can also add details by converting order(it contains an object) to string and storing it all 
+			  // in single column)
+			  MyOrder myOrder = new MyOrder();
+			  myOrder.setAmount(order.get("amount")+""); // here we have added "" to convert it to string 
+			  myOrder.setOrderId(order.get("id"));
+			  myOrder.setPaymentId(null);
+			  myOrder.setStatus("created");
+			  myOrder.setUser(this.userRepository.getUserByUserName(principal.getName()));
+			  myOrder.setReceipt(order.get("reciept"));
+			  this.myOrderRepository.save(myOrder);
+			  
 			  System.out.println(order);
 			  return order.toString();
 			  
@@ -274,6 +292,15 @@ public class UserController {
 			  return e.getMessage();
 			}
 		//return order.toString();
+	}
+	
+	@PostMapping("/user/update_order")
+	public ResponseEntity<?> upadetOrder(@RequestBody Map<String, Object> data){
+		MyOrder myOrder = this.myOrderRepository.findByOrderId(data.get("order_id").toString());
+		myOrder.setPaymentId(data.get("payment_id").toString());
+		myOrder.setStatus(data.get("status").toString());
+		this.myOrderRepository.save(myOrder);
+		return ResponseEntity.ok(Map.of("msg", "updated"));
 	}
 	
 	

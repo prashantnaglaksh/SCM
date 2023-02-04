@@ -119,7 +119,8 @@ function paymentStart(){
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
+        alert(response.razorpay_signature);
+        updatePaymentOnServer(response.razorpay_payment_id, response.razorpay_order_id, 'paid');
     },
     "prefill": {
         "name": "",
@@ -158,6 +159,23 @@ rzp.on('payment.failed', function (response){
 			}
 		}
 	);
+}
+
+function updatePaymentOnServer(payment_id, order_id, status){
+	$.ajax(
+		{
+			url : "/user/update_order",
+			data:JSON.stringify({payment_id:payment_id, order_id:order_id, status:status}),
+			contentType:'application/json',
+			type:'POST',
+			dataType:'json',
+			success:function(response){
+				alert("paymenet details also upadetd on server as well");
+			},
+			error:function(error){
+				alert("issue while updating payment detaulson the server");
+			}
+		});
 }
 
 
