@@ -19,6 +19,12 @@
 						<span>Start Adding Your Contacts</span>
 					</div>
 					<a th:href="@{/user/add-contact}" class="btn btn-primary btn-block text-upperCase mt-3">Add New Contact</a>
+					<hr />
+					<h3 class="my-3"><span>Donate Us</span></h3>
+					<input id="payment_field" type="number" class="form-control my-2" placeholder="Enter your amount here..." />
+					<div class="container text-center">
+						<button onclick="paymentStart()" class="btn-success">Pay</button>
+					</div>
 				</div>
 			</div>
 		</div>
